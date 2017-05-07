@@ -16,7 +16,7 @@ namespace DSConverter
             this.InitializeComponent();
             this.urlTextBox.Text = "https://de141.die-staemme.de/game.php?village=123123&screen=place";
 
-            this.lkavCountTextBox.Text = troopCount;
+            this.lkavCountTextBox.Text = this.troopCount;
         }
 
         

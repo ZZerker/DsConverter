@@ -1,62 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace DSConverter
 {
-    public partial class Form1 : Form
+    public partial class DsConverterForm: Form
     {
-        private const string header = @"VERSION BUILD=9030808 RECORDER=FX
-        TAB T = 1
+        private string header = string.Empty;
 
-        URL GOTO = https://de141.die-staemme.de/game.php?village=5665&screen=place";
+        private string troopCount = "9";
 
-        private const int troupCount = 9;
-
-        public Form1()
+        public DsConverterForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+            this.urlTextBox.Text = "https://de141.die-staemme.de/game.php?village=123123&screen=place";
+
+            this.lkavCountTextBox.Text = troopCount;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        
+
+
+        private void convertButton_Click(object sender, EventArgs e)
         {
+            this.GetParameters();
+
             var input = this.textBox1.Lines;
-            Array.Sort(input, StringComparer.Ordinal);
-            this.textBox1.Lines = input;
-            string sendTroops = "";
-            sendTroops += Environment.NewLine+$"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=NAME:input CONTENT=XYZ";
-            sendTroops += Environment.NewLine+$"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=ID:unit_input_light Content={troupCount}";
-            sendTroops += Environment.NewLine+"";
-            sendTroops += Environment.NewLine+"SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
-            sendTroops += Environment.NewLine+"wait seconds={{!var1}}";
-            sendTroops += Environment.NewLine+"";
-            sendTroops += Environment.NewLine+"TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:target_attack";
-            sendTroops += Environment.NewLine+"";
-            sendTroops += Environment.NewLine+"SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
-            sendTroops += Environment.NewLine+"wait seconds={{!var1}}";
-            sendTroops += Environment.NewLine+"";
-            sendTroops += Environment.NewLine+"TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:troop_confirm_go";
-            sendTroops += Environment.NewLine+"";
-            sendTroops += Environment.NewLine+"SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
-            sendTroops += Environment.NewLine+"wait seconds={{!var1}}";
+            var sendTroops = "";
+            sendTroops += Environment.NewLine + $"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=NAME:input CONTENT=XYZ";
+            sendTroops += Environment.NewLine + $"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=ID:unit_input_light Content={this.troopCount}";
+            sendTroops += Environment.NewLine + "";
+            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
+            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
+            sendTroops += Environment.NewLine + "";
+            sendTroops += Environment.NewLine + "TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:target_attack";
+            sendTroops += Environment.NewLine + "";
+            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
+            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
+            sendTroops += Environment.NewLine + "";
+            sendTroops += Environment.NewLine + "TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:troop_confirm_go";
+            sendTroops += Environment.NewLine + "";
+            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
+            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
 
             this.textBox2.Text = "";
-            this.textBox2.Text += header;
-       
-         
-            
-            foreach(var s in input)
+            this.textBox2.Text += this.header;
+
+
+            foreach (var s in input)
             {
-                if(s.Contains("|"))
+                if (s.Contains("|"))
                 {
                     this.textBox2.Text += sendTroops.Replace("XYZ", s);
                 }
+            }
+        }
+
+        private void GetParameters()
+        {
+            this.header = string.Empty;
+            this.header += "VERSION BUILD=9030808 RECORDER=FX";
+            this.header += Environment.NewLine;
+            this.header += Environment.NewLine + "TAB T = 1";
+            this.header += Environment.NewLine;
+            this.header += Environment.NewLine + $"URL GOTO = {this.urlTextBox.Text}";
+
+            this.troopCount = this.lkavCountTextBox.Text;
+        }
+
+        private void sortButton_Click(object sender, EventArgs e)
+        {
+            var input = this.textBox1.Lines;
+            var toBeSorted = new List<string>{};
+            foreach(var s in input)
+            {
+                if(!string.IsNullOrEmpty(s))
+                {
+                    toBeSorted.Add(s);
+                }
+            }
+            var sorted = toBeSorted.ToArray();
+
+            Array.Sort(sorted, StringComparer.Ordinal);
+            this.textBox1.Lines = sorted;
+        }
+
+        private void saveButton_Click_1(object sender, EventArgs e)
+        {
+            SaveFileDialog savefile = new SaveFileDialog
+                                      {
+                                          FileName = "Farm.iim"
+                                      };
+
+
+
+            if (savefile.ShowDialog() == DialogResult.OK)
+            {
+                using(StreamWriter sw = new StreamWriter(savefile.FileName))
+                {
+                    foreach(var line in this.textBox2.Lines)
+                    {
+                        sw.WriteLine(line);
+                    }
+                    sw.Flush();
+                    sw.Dispose();
+                    
+                }
+                 
             }
         }
     }

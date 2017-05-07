@@ -195,7 +195,7 @@ namespace DSConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1275, 944);
+            this.ClientSize = new System.Drawing.Size(1275, 700);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DsConverterForm";
             this.Text = "DS Konverter";

@@ -61,7 +61,7 @@ namespace DSConverter
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1275, 700);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1275, 944);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // textBox2
@@ -71,7 +71,7 @@ namespace DSConverter
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox2.Size = new System.Drawing.Size(632, 544);
+            this.textBox2.Size = new System.Drawing.Size(632, 788);
             this.textBox2.TabIndex = 1;
             // 
             // textBox1
@@ -81,7 +81,7 @@ namespace DSConverter
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(631, 544);
+            this.textBox1.Size = new System.Drawing.Size(631, 788);
             this.textBox1.TabIndex = 0;
             // 
             // topTableLayoutPanel
@@ -195,7 +195,7 @@ namespace DSConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1275, 700);
+            this.ClientSize = new System.Drawing.Size(1275, 944);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DsConverterForm";
             this.Text = "DS Konverter";

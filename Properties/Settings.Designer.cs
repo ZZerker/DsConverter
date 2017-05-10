@@ -22,5 +22,29 @@ namespace DSConverter.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://de141.die-staemme.de/game.php?village=123123&screen=place")]
+        public string Url {
+            get {
+                return ((string)(this["Url"]));
+            }
+            set {
+                this["Url"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public decimal BaseTroopCount {
+            get {
+                return ((decimal)(this["BaseTroopCount"]));
+            }
+            set {
+                this["BaseTroopCount"] = value;
+            }
+        }
     }
 }

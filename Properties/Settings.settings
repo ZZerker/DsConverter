@@ -3,10 +3,19 @@
   <Profiles />
   <Settings>
     <Setting Name="Url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://de141.die-staemme.de/game.php?village=123123&amp;screen=place</Value>
+      <Value Profile="(Default)">https://de162.die-staemme.de/game.php?village=3870&amp;screen=place</Value>
     </Setting>
-    <Setting Name="BaseTroopCount" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">5</Value>
+    <Setting Name="LkavCount" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="SpyCount" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="PauseTime" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="HomeCoordinate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">559|470</Value>
     </Setting>
   </Settings>
 </SettingsFile>

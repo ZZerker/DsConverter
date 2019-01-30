@@ -12,7 +12,7 @@ namespace DSConverter.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace DSConverter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://de141.die-staemme.de/game.php?village=123123&screen=place")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://de162.die-staemme.de/game.php?village=3870&screen=place")]
         public string Url {
             get {
                 return ((string)(this["Url"]));
@@ -37,13 +37,49 @@ namespace DSConverter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public decimal BaseTroopCount {
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public decimal LkavCount {
             get {
-                return ((decimal)(this["BaseTroopCount"]));
+                return ((decimal)(this["LkavCount"]));
             }
             set {
-                this["BaseTroopCount"] = value;
+                this["LkavCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public decimal SpyCount {
+            get {
+                return ((decimal)(this["SpyCount"]));
+            }
+            set {
+                this["SpyCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public decimal PauseTime {
+            get {
+                return ((decimal)(this["PauseTime"]));
+            }
+            set {
+                this["PauseTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("559|470")]
+        public string HomeCoordinate {
+            get {
+                return ((string)(this["HomeCoordinate"]));
+            }
+            set {
+                this["HomeCoordinate"] = value;
             }
         }
     }

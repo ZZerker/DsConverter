@@ -44,7 +44,7 @@ namespace DSConverter
             get => Settings.Default.LkavCount;
             set
             {
-                if(value > 0)
+                if(value >= 0)
                 {
                     Settings.Default.LkavCount = value;
                     Settings.Default.Save();
@@ -70,7 +70,7 @@ namespace DSConverter
             get => Settings.Default.SpyCount;
             set
             {
-                if(value > 0)
+                if(value >= 0)
                 {
                     Settings.Default.SpyCount = value;
                     Settings.Default.Save();
@@ -110,31 +110,19 @@ namespace DSConverter
         {
             var sendTroops = string.Empty;
             sendTroops += Environment.NewLine + $"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=NAME:input CONTENT={coordinates}";
-            sendTroops += Environment.NewLine + "";
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +1); randomNumber;\")";
-            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
-            sendTroops += Environment.NewLine + "";
             sendTroops += Environment.NewLine + $"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=ID:unit_input_light Content={Math.Round(lkavCount)}";
-            sendTroops += Environment.NewLine + "";
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +1); randomNumber;\")";
-            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
             if(spyCount > 0)
             {
                 sendTroops += Environment.NewLine + $"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=ID:unit_input_spy Content={Math.Round(spyCount)}";
             }
 
-            sendTroops += Environment.NewLine + "";
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
+            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 ); randomNumber;\")";
             sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
-            sendTroops += Environment.NewLine + "";
             sendTroops += Environment.NewLine + "TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:target_attack";
-            sendTroops += Environment.NewLine + "";
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
+            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 ); randomNumber;\")";
             sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
-            sendTroops += Environment.NewLine + "";
             sendTroops += Environment.NewLine + "TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:troop_confirm_go";
-            sendTroops += Environment.NewLine + "";
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 +2); randomNumber;\")";
+            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 ); randomNumber;\")";
             sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
             return sendTroops;
         }

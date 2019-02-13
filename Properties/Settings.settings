@@ -17,5 +17,8 @@
     <Setting Name="HomeCoordinate" Type="System.String" Scope="User">
       <Value Profile="(Default)">559|470</Value>
     </Setting>
+    <Setting Name="TargetDictionary" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

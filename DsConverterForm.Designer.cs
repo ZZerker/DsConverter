@@ -72,7 +72,6 @@ namespace DSConverter
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1275, 700);
             this.tableLayoutPanel1.TabIndex = 0;
-            
             // 
             // targetTextBox
             // 
@@ -186,7 +185,7 @@ namespace DSConverter
             this.buttonTableLayoutPanel.Name = "buttonTableLayoutPanel";
             this.buttonTableLayoutPanel.RowCount = 1;
             this.buttonTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.buttonTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.buttonTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.buttonTableLayoutPanel.Size = new System.Drawing.Size(1063, 33);
             this.buttonTableLayoutPanel.TabIndex = 5;
             // 

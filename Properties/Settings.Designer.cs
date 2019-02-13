@@ -82,5 +82,17 @@ namespace DSConverter.Properties {
                 this["HomeCoordinate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetDictionary {
+            get {
+                return ((string)(this["TargetDictionary"]));
+            }
+            set {
+                this["TargetDictionary"] = value;
+            }
+        }
     }
 }

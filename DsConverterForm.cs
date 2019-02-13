@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DSConverter.Properties;
+using JetBrains.Annotations;
+using Newtonsoft.Json;
 
 namespace DSConverter
 {
@@ -19,11 +21,38 @@ namespace DSConverter
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
 
             this.lkavCountTextBox.Text = this.LKavCount.ToString(CultureInfo.InvariantCulture);
-            this.spyCountTextBox.Text=this.SpyCount.ToString(CultureInfo.InvariantCulture);
+            this.spyCountTextBox.Text = this.SpyCount.ToString(CultureInfo.InvariantCulture);
             this.homeCoordinateTextBox.Text = this.HomeCoordinate[0] + "|" + this.HomeCoordinate[1];
             this.pauseTimeTextBox.Text = this.PauseTime.ToString(CultureInfo.InvariantCulture);
 
+            if(this.TargetDictionary != null&&this.TargetDictionary.Count>0)
+            {
+                var sb = new StringBuilder();
+                foreach(var target in this.TargetDictionary)
+                {
+                    sb.AppendLine(target.Key);
+                }
+                this.targetTextBox.Text = sb.ToString();
+            }
+
             this.urlTextBox.Text = this.Url;
+        }
+
+
+        private Dictionary<string, Target> TargetDictionary
+        {
+            get => JsonConvert.DeserializeObject<Dictionary<string, Target>>(Settings.Default.TargetDictionary);
+            set
+            {
+                if(value != null)
+                {
+                    var serializeObject = JsonConvert.SerializeObject(value);
+
+
+                    Settings.Default.TargetDictionary = serializeObject;
+                    Settings.Default.Save();
+                }
+            }
         }
 
         private string Url
@@ -99,7 +128,7 @@ namespace DSConverter
         private string GetScriptEnd(decimal pauseTime)
         {
             var end = string.Empty;
-            end += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*2*60+"+ pauseTime + "*60); randomNumber;\")";
+            end += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*2*60+" + pauseTime + "*60); randomNumber;\")";
             end += Environment.NewLine + "wait seconds={{!var1}}";
             end += Environment.NewLine + "TAB CLOSE";
 
@@ -116,15 +145,18 @@ namespace DSConverter
                 sendTroops += Environment.NewLine + $"TAG POS=1 TYPE=INPUT:TEXT FORM=ID:command-data-form ATTR=ID:unit_input_spy Content={Math.Round(spyCount)}";
             }
 
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 ); randomNumber;\")";
-            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
+            sendTroops += this.GetWaitTimer();
             sendTroops += Environment.NewLine + "TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:target_attack";
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 ); randomNumber;\")";
-            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
+            sendTroops += this.GetWaitTimer();
             sendTroops += Environment.NewLine + "TAG POS=1 TYPE=INPUT:SUBMIT FORM=ID:command-data-form ATTR=ID:troop_confirm_go";
-            sendTroops += Environment.NewLine + "SET !VAR1 EVAL(\"var randomNumber=Math.floor(Math.random()*1 ); randomNumber;\")";
-            sendTroops += Environment.NewLine + "wait seconds={{!var1}}";
+            sendTroops += this.GetWaitTimer();
             return sendTroops;
+        }
+
+        private string GetWaitTimer()
+        {
+            var i = new Random().Next(1, 10);
+            return Environment.NewLine + $"wait seconds={{!var{i}}}";
         }
 
         private string GetScriptHead()
@@ -138,8 +170,39 @@ namespace DSConverter
             header += Environment.NewLine;
             header += Environment.NewLine + $"URL GOTO = {this.urlTextBox.Text}";
 
+            for(int i = 1; i < 11; i++)
+            {
+                header+= Environment.NewLine + $"SET !VAR{i} EVAL(\"var randomNumber=Math.floor(Math.random()*1 ); randomNumber;\")";
+            }
+
             this.Url = this.urlTextBox.Text;
             return header;
+        }
+
+        private void ParseTargetLine([NotNull] string line, [NotNull] ref Dictionary<string, Target> targetList)
+        {
+            var parseString = line;
+            if(line.Contains(";"))
+            {
+                var split = parseString.Split(';');
+                if(split.Length == 2)
+                {
+                    parseString = split[1];
+                }
+            }
+
+            if(parseString.Contains('|'))
+            {
+                var coords = parseString.Split('|');
+         
+                var key = int.Parse(coords[0]) + "|" + int.Parse(coords[1]);
+                var target = new Target(new[]
+                                        {
+                                                int.Parse(coords[0]),
+                                                int.Parse(coords[1])
+                                        });
+                targetList[key]=target;
+            }
         }
 
         private string ProcessConvert()
@@ -147,13 +210,13 @@ namespace DSConverter
             this.LKavCount = Convert.ToDecimal(this.lkavCountTextBox.Text);
             this.SpyCount = Convert.ToDecimal(this.spyCountTextBox.Text);
             this.PauseTime = Convert.ToDecimal(this.pauseTimeTextBox.Text);
-
+            this.ReadInputList();
+            
             var scriptHead = this.GetScriptHead();
 
             var sb = new StringBuilder();
             sb.Append(scriptHead);
-
-
+            
             var input = this.targetTextBox.Lines;
             foreach(var s in input)
             {
@@ -175,6 +238,17 @@ namespace DSConverter
             var end = this.GetScriptEnd(decimal.Parse(this.pauseTimeTextBox.Text));
             sb.Append(end);
             return sb.ToString();
+        }
+
+        private void ReadInputList()
+        {
+            var targetList= new Dictionary<string,Target>();
+            foreach(var line in this.targetTextBox.Lines)
+            {
+                this.ParseTargetLine(line, ref targetList);
+            }
+
+            this.TargetDictionary = targetList;
         }
 
         private void saveButton_Click_1(object sender, EventArgs e)
@@ -202,6 +276,9 @@ namespace DSConverter
 
         private void sortButton_Click(object sender, EventArgs e)
         {
+            this.ReadInputList();
+
+
             var input = this.targetTextBox.Lines;
             var toBeSorted = new List<string>();
             foreach(var s in input)
@@ -232,7 +309,5 @@ namespace DSConverter
 
             this.targetTextBox.Lines = sorted;
         }
-
-       
     }
 }
